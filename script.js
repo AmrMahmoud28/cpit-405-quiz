@@ -3,7 +3,7 @@ let make = makeList.value;
 
 makeList.addEventListener("change", () => {
     make = makeList.value;
-    getModels(make);
+    getModelsAsyncAwait(make);
 });
 
 function getModels() {
@@ -14,6 +14,12 @@ function getModels() {
         .then((data) => {
             appendModels(data.Results);
         });
+}
+
+const getModelsAsyncAwait = async () =>{
+    const response = await fetch(`https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMake/${make}?format=json`);
+    const data = await response.json();
+    appendModels(data.Results);
 }
 
 function appendModels(models) {
